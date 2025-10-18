@@ -1,0 +1,41 @@
+package com.platform.campaign_service.services.ngo.impl;
+
+
+import com.platform.campaign_service.controllers.manageExceptions.CustomException;
+import com.platform.campaign_service.dtos.ngo.NgoDto;
+import com.platform.campaign_service.restClients.ngo.INgoRestClient;
+import com.platform.campaign_service.services.ngo.IGetNgoService;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+/**
+ * Service implementation for retrieving NGO information.
+ */
+@Service
+@RequiredArgsConstructor
+public class GetNgoService implements IGetNgoService {
+    /** Logger instance for logging information and errors. */
+    private static final Logger LOG = LoggerFactory.getLogger(GetNgoService.class);
+    /** REST client for interacting with the NGO service. */
+    private final INgoRestClient ngoRestClient;
+
+    /**
+     * Retrieves the NGO information associated with the current user context.
+     *
+     * @return ngoDto.
+     */
+    @Override
+    public NgoDto getNgoUserContext() {
+        LOG.trace("getNgoUserContext()");
+        NgoDto ngoDto = ngoRestClient.getMyNgo().getBody();
+        if (ngoDto == null) {
+            LOG.error("NgoDto is null");
+            throw new CustomException("Error retrieve NGO info", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return  ngoDto;
+    }
+}
+
