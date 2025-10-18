@@ -1,6 +1,6 @@
 spring:
   application:
-    name: user-service
+    name: campaign-service
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:9036/campaign_service}
     username: ${SPRING_DATASOURCE_USERNAME:root}
@@ -53,4 +53,4 @@ eureka:
 
 pool:
   user:
-    url: ${USER_SERVICE_URL:http://localhost:9080/user}
+    url: ${USER_SERVICE_URL:http://localhost:9080/users}
