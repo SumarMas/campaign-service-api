@@ -304,3 +304,6 @@ BEGIN
     WHERE campaign_id = NEW.campaign_id AND tag_name = NEW.tag_name;
 END$$
 DELIMITER ;
+
+ALTER TABLE campaign_messages MODIFY COLUMN description LONGTEXT NOT NULL;
+ALTER TABLE campaign_messages_audit MODIFY COLUMN description LONGTEXT NOT NULL;
