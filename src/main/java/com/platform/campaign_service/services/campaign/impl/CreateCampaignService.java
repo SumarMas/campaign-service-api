@@ -2,7 +2,7 @@ package com.platform.campaign_service.services.campaign.impl;
 
 import com.platform.campaign_service.context.IContextService;
 import com.platform.campaign_service.controllers.manageExceptions.CustomException;
-import com.platform.campaign_service.dtos.CampaignCreateRequestDto;
+import com.platform.campaign_service.dtos.campaign.CampaignCreateRequestDto;
 import com.platform.campaign_service.dtos.ngo.NgoDto;
 import com.platform.campaign_service.entities.CampaignCategoryEntity;
 import com.platform.campaign_service.entities.CampaignEntity;

@@ -1,4 +1,4 @@
-package com.platform.campaign_service.dtos;
+package com.platform.campaign_service.dtos.campaign;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Future;
@@ -16,20 +16,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Data Transfer Object (DTO) for creating a new campaign.
- */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CampaignCreateRequestDto {
+public class CampaignUpdateRequestDto {
     /** Title of the campaign. */
-    @NotBlank(message = "Title is mandatory")
     @JsonProperty("title")
     private String title;
     /** Description of the campaign. */
-    @NotBlank(message = "Description is mandatory")
     @JsonProperty("description")
     private String description;
     /** Goal amount for the campaign. */
