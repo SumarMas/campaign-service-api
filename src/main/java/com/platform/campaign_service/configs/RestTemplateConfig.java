@@ -1,11 +1,14 @@
 package com.platform.campaign_service.configs;
 
+import com.platform.campaign_service.context.HeaderPropagationInterceptor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.util.List;
 
 /**
  * Configuration class for RestTemplate settings.
@@ -21,13 +24,16 @@ public class RestTemplateConfig {
      * Creates a RestTemplate bean with custom timeout settings.
      *
      * @param builder the RestTemplateBuilder used to configure the RestTemplate
+     * @param headerInterceptor the interceptor to propagate headers from RequestContext
      * @return a RestTemplate instance with the specified timeout settings
      */
     @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+    public RestTemplate restTemplate(RestTemplateBuilder builder,
+                                     HeaderPropagationInterceptor headerInterceptor) {
         return builder
                 .setConnectTimeout(Duration.ofMillis(TIMEOUT))
                 .setReadTimeout(Duration.ofMillis(TIMEOUT))
+                .interceptors(List.of(headerInterceptor))
                 .build();
     }
 }
