@@ -14,6 +14,10 @@ import java.util.UUID;
 @Data
 @Embeddable
 public class CampaignTagId implements Serializable {
+    /** Maximum length for the tag. */
+    private static final int LENGTH_TAG = 100;
+    /** Length of UUID string representation. */
+    private static final int LENGTH_UUID = 36;
     /**
      * Serial version UID for serialization.
      */
@@ -22,12 +26,12 @@ public class CampaignTagId implements Serializable {
     /**
      * Unique identifier for the campaign.
      */
-    @Column(name = "campaign_id", nullable = false, length = 36)
+    @Column(name = "campaign_id", nullable = false, length = LENGTH_UUID)
     private UUID campaignId;
     /**
      * Tag associated with the campaign.
      */
-    @Column(name = "tag_name", nullable = false, length = 100)
+    @Column(name = "tag_name", nullable = false, length = LENGTH_TAG)
     private String tag;
 
     /**
@@ -54,7 +58,9 @@ public class CampaignTagId implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
         if (!(o instanceof CampaignTagId that)) {
             return false;
         }

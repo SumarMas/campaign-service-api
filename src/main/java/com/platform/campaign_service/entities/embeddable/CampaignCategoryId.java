@@ -14,6 +14,8 @@ import java.util.UUID;
 @Data
 @Embeddable
 public class CampaignCategoryId implements Serializable {
+    /** Length of UUID string representation. */
+    private static final int LENGTH_UUID = 36;
     /**
      * Serial version UID for serialization.
      */
@@ -21,12 +23,12 @@ public class CampaignCategoryId implements Serializable {
     /**
      * Unique identifier for the campaign.
      */
-    @Column(name = "campaign_id", nullable = false, length = 36)
+    @Column(name = "campaign_id", nullable = false, length = LENGTH_UUID)
     private UUID campaignId;
     /**
      * Unique identifier for the category.
      */
-    @Column(name = "category_id", nullable = false, length = 36)
+    @Column(name = "category_id", nullable = false, length = LENGTH_UUID)
     private UUID categoryId;
 
     /**
@@ -47,15 +49,28 @@ public class CampaignCategoryId implements Serializable {
         this.categoryId = categoryIdParam;
     }
 
+    /**
+     * Overrides equals method for comparison.
+     *
+     * @param o Object to compare.
+     * @return true if equal, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
         if (!(o instanceof CampaignCategoryId that)) {
             return false;
         }
         return Objects.equals(campaignId, that.campaignId) && Objects.equals(categoryId, that.categoryId);
     }
 
+    /**
+     * Overrides hashCode method.
+     *
+     * @return hash code of the object.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(campaignId, categoryId);

@@ -13,6 +13,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * Entity representing a tag associated with a campaign.
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
@@ -20,10 +23,13 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Entity
 @Table(name = "campaign_tags")
-public class CampaignTagEntity extends AuditEntity{
+public class CampaignTagEntity extends AuditEntity {
+
+    /** Composite key for the campaign tag. */
     @EmbeddedId
     private CampaignTagId id;
 
+    /** Associated campaign for the tag. */
     @ManyToOne()
     @MapsId("campaignId") // enlaza el campo campaignId de CampaignCategoryId
     @JoinColumn(name = "campaign_id", nullable = false)

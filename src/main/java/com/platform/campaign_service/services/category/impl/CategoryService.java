@@ -15,7 +15,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CategoryService implements ICategoryService {
+    /** Logger for logging information and errors. */
     private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(CategoryService.class);
+    /** Service for retrieving category data. */
     private final IGetCategoryService getCategoryService;
     /**
      * Retrieves all active categories.

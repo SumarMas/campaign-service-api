@@ -4,7 +4,6 @@ import com.platform.campaign_service.context.HeaderPropagationInterceptor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
@@ -24,7 +23,8 @@ public class RestTemplateConfig {
      * Creates a RestTemplate bean with custom timeout settings.
      *
      * @param builder the RestTemplateBuilder used to configure the RestTemplate
-     * @param headerInterceptor the interceptor to propagate headers from RequestContext
+     * @param headerInterceptor the interceptor to propagate headers,
+     *                          from RequestContext
      * @return a RestTemplate instance with the specified timeout settings
      */
     @Bean

@@ -21,6 +21,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Entity representing a campaign in the system.
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
@@ -28,7 +31,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "campaigns")
-public class CampaignEntity extends AuditEntity{
+public class CampaignEntity extends AuditEntity {
+    /** Precision for monetary values. */
+    private static final int PRECISION = 12;
+    /** Scale for monetary values. */
+    private static final int SCALE = 2;
+    /** Maximum length for the campaign description. */
+    private static final int LENGTH_DESCRIPTION = 500;
 
     /** Unique identifier for the campaign. */
     @Id
@@ -44,15 +53,15 @@ public class CampaignEntity extends AuditEntity{
     private String title;
 
     /** Goal amount for the campaign. */
-    @Column(name = "goal_amount", nullable = false, precision = 12, scale = 2)
+    @Column(name = "goal_amount", nullable = false, precision = PRECISION, scale = SCALE)
     private BigDecimal goalAmount;
 
     /** Current amount raised for the campaign. */
-    @Column(name = "current_amount", precision = 12, scale = 2)
+    @Column(name = "current_amount", precision = PRECISION, scale = SCALE)
     private BigDecimal currentAmount = BigDecimal.ZERO;
 
     /** Description of the campaign. */
-    @Column(nullable = false , length = 500, name = "description")
+    @Column(nullable = false, length = LENGTH_DESCRIPTION, name = "description")
     @Lob
     private String description;
 
@@ -65,12 +74,15 @@ public class CampaignEntity extends AuditEntity{
     @Column(nullable = false, name = "state")
     private CampaignState state = CampaignState.ACTIVE;
 
+    /** List of categories associated with the campaign. */
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CampaignCategoryEntity> categories;
 
+    /** List of tags associated with the campaign. */
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CampaignTagEntity> tags;
 
+    /** List of images associated with the campaign. */
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CampaignImageEntity> images;
 

@@ -6,6 +6,9 @@ import com.platform.campaign_service.services.campaign.ICreateCampaignService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service implementation for handling campaign-related operations.
+ */
 @Service
 @RequiredArgsConstructor
 public class CampaignService implements ICampaignService {

@@ -15,6 +15,7 @@ import java.util.UUID;
 /**
  * Entity representing a category for campaigns.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
@@ -22,7 +23,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "categories")
-public class CategoryEntity extends AuditEntity{
+public class CategoryEntity extends AuditEntity {
+    /** Maximum length for the category name. */
+    private static final int LENGTH_NAME = 100;
+    /** Maximum length for the category description. */
+    private static final int LENGTH_DESCRIPTION = 255;
     /**
      * Unique identifier for the category.
      */
@@ -32,11 +37,11 @@ public class CategoryEntity extends AuditEntity{
     /**
      * Name of the category.
      */
-    @Column(nullable = false, unique = true, length = 100, name = "name")
+    @Column(nullable = false, unique = true, length = LENGTH_NAME, name = "name")
     private String name;
     /**
      * Description of the category.
      */
-    @Column(length = 255, name = "description")
+    @Column(length = LENGTH_DESCRIPTION, name = "description")
     private String description;
 }
