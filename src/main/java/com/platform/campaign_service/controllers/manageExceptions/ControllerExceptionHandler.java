@@ -1,6 +1,6 @@
 package com.platform.campaign_service.controllers.manageExceptions;
 
-import com.platform.user_service.dtos.common.ErrorApi;
+import com.platform.campaign_service.dtos.common.ErrorApi;
 import lombok.NoArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
