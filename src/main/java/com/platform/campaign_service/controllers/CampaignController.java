@@ -19,7 +19,7 @@ public class CampaignController {
     /** Service for handling campaign-related operations. */
     private final ICampaignService campaignService;
 
-    @PostMapping()
+    @PostMapping("/create")
     public ResponseEntity<Void> createCampaign(@RequestBody @Valid CampaignCreateRequestDto requestDto) {
         logger.info("Creating a new campaign");
         campaignService.createCampaign(requestDto);

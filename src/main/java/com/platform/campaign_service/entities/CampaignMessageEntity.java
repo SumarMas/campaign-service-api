@@ -35,8 +35,7 @@ public class CampaignMessageEntity extends AuditEntity{
     @Column(nullable = false, name = "title")
     private String title;
 
-    @Column(nullable = false, name = "description")
-    @Lob
+    @Column(name = "description", columnDefinition = "LONGTEXT", nullable = false)
     private String description;
 
     @Column(name = "file_id", columnDefinition = "BINARY(16)")

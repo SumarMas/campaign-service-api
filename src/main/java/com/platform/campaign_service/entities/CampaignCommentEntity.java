@@ -42,7 +42,6 @@ public class CampaignCommentEntity extends  AuditEntity {
     private UUID userId;
 
     /** Content of the comment. */
-    @Lob
-    @Column(nullable = false)
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 }

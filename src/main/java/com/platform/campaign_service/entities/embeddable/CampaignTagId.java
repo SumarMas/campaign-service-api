@@ -27,7 +27,7 @@ public class CampaignTagId implements Serializable {
     /**
      * Tag associated with the campaign.
      */
-    @Column(name = "tag", nullable = false, length = 100)
+    @Column(name = "tag_name", nullable = false, length = 100)
     private String tag;
 
     /**
