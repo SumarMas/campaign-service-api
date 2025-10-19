@@ -64,6 +64,27 @@ public class NgoRestClient implements INgoRestClient {
        }
     }
 
+    /**
+     * Retrieves all approved NGOs.
+     *
+     * @return a ResponseEntity containing an array of
+     * NgoDto representing all approved NGOs
+     */
+    @Override
+    public ResponseEntity<NgoDto[]> getAllNgosApproved() {
+        LOGGER.trace("getAllNgosApproved RestClient - start");
+        String url = baseUrl + "/api/v1/ngos/all-approved";
+        try {
+            ResponseEntity<NgoDto[]> response = restTemplate.getForEntity(url, NgoDto[].class);
+            LOGGER.trace("getAllNgosApproved RestClient - end");
+            return response;
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            LOGGER.error("Error in getAllNgosApproved NgoRestClient: {}", ex.getMessage());
+            handleError(ex);
+            return null; // This line will never be reached because handleError always throws an exception
+        }
+    }
+
     private void handleError(HttpStatusCodeException ex) {
         try {
             ErrorApi error = objectMapper.readValue(ex.getResponseBodyAsString(), ErrorApi.class);
