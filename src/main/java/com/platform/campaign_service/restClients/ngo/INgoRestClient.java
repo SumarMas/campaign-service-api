@@ -2,6 +2,7 @@ package com.platform.campaign_service.restClients.ngo;
 
 import com.platform.campaign_service.dtos.ngo.NgoDto;
 import org.springframework.http.ResponseEntity;
+
 /**
  * REST client interface for interacting with the NGO service.
  */
@@ -13,4 +14,12 @@ public interface INgoRestClient {
      * or an appropriate error response if no NGO is associated with the user
      */
     ResponseEntity<NgoDto> getMyNgo();
+
+    /**
+     * Retrieves all approved NGOs.
+     *
+     * @return a ResponseEntity containing an array of
+     * NgoDto representing all approved NGOs
+     */
+    ResponseEntity<NgoDto[]> getAllNgosApproved();
 }

@@ -1,5 +1,6 @@
 package com.platform.campaign_service.services.category.impl;
 
+import com.platform.campaign_service.dtos.categories.CategoryDto;
 import com.platform.campaign_service.entities.CategoryEntity;
 import com.platform.campaign_service.services.category.ICategoryService;
 import com.platform.campaign_service.services.category.IGetCategoryService;
@@ -28,5 +29,16 @@ public class CategoryService implements ICategoryService {
     public List<CategoryEntity> getAllCategoriesActive() {
         LOG.trace("In getAllCategoriesActive()");
         return getCategoryService.getAllCategoriesActive();
+    }
+
+    /**
+     * Retrieves all active categories as DTOs.
+     *
+     * @return a list of active CategoryDto objects
+     */
+    @Override
+    public List<CategoryDto> getAllCategoriesActiveDto() {
+        LOG.trace("In getAllCategoriesActiveDto()");
+        return getCategoryService.getAllCategoriesActiveDto();
     }
 }

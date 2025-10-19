@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  * Service implementation for retrieving NGO information.
  */
@@ -36,6 +40,28 @@ public class GetNgoService implements IGetNgoService {
             throw new CustomException("Error retrieve NGO info", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return  ngoDto;
+    }
+
+    /**
+     * Retrieves all approved NGOs.
+     *
+     * @return a map of NGO identifiers to their corresponding NgoDto.
+     */
+    @Override
+    public Map<String, NgoDto> getAllNgosApproved() {
+        LOG.trace("getAllNgosApproved()");
+        NgoDto[] ngosDto;
+        try {
+            ngosDto = ngoRestClient.getAllNgosApproved().getBody();
+            if (ngosDto == null) {
+                LOG.error("NgosDto is null");
+                ngosDto = new NgoDto[0];
+            }
+        } catch (CustomException e) {
+            LOG.error("Error retrieving approved NGOs: {}", e.getMessage());
+            ngosDto = new NgoDto[0];
+        }
+        return Arrays.stream(ngosDto).collect(Collectors.toMap(NgoDto::getId, ngoDto -> ngoDto, (a, b) -> a));
     }
 }
 
