@@ -72,7 +72,6 @@ public class UpdateCampaignService implements IUpdateCampaignService {
      */
     @Override
     @Transactional
-    @SuppressWarnings("unused")
     public void updateCampaign(UUID campaignId, CampaignUpdateRequestDto request) {
         LOG.trace("Updating campaign with ID: {}", campaignId);
         UUID userId = getCurrentUserId();
@@ -97,9 +96,9 @@ public class UpdateCampaignService implements IUpdateCampaignService {
             campaign.setEndDatetime(request.getEndDateTime());
             hasChanges = true;
         }
-        hasChanges = updateCategories(campaign, request.getCategoryIds(), userId);
-        hasChanges = updateTags(campaign, request.getTags(), userId);
-        hasChanges = updateImages(campaign, request.getImageIds(), userId);
+        hasChanges = updateCategories(campaign, request.getCategoryIds(), userId) || hasChanges;
+        hasChanges = updateTags(campaign, request.getTags(), userId) || hasChanges;
+        hasChanges = updateImages(campaign, request.getImageIds(), userId) || hasChanges;
         if (hasChanges) {
             campaign.setLastUpdatedUser(userId);
         }
