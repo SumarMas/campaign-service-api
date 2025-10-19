@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * REST controller for managing categories.
+ */
 @RestController
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
