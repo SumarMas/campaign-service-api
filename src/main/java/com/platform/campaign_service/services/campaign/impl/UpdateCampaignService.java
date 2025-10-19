@@ -209,8 +209,8 @@ public class UpdateCampaignService implements IUpdateCampaignService {
         return hasChanges;
     }
 
-    private boolean updateTags(CampaignEntity campaign, Set<String> newTags, final UUID currentUserId) {
-        newTags = Objects.requireNonNullElseGet(newTags, Set::of);
+    private boolean updateTags(CampaignEntity campaign, Set<String> newTagsParam, final UUID currentUserId) {
+        Set<String> newTags = Objects.requireNonNullElseGet(newTagsParam, Set::of);
         boolean hasChanges = false;
         List<CampaignTagEntity> tags = campaign.getTags();
         for (CampaignTagEntity tag : tags) {
@@ -240,8 +240,8 @@ public class UpdateCampaignService implements IUpdateCampaignService {
         return hasChanges;
     }
 
-    private boolean updateImages(CampaignEntity campaign, List<UUID> newImageIds, final UUID currentUserId) {
-        newImageIds = Objects.requireNonNullElseGet(newImageIds, List::of);
+    private boolean updateImages(CampaignEntity campaign, List<UUID> newImageIdsParam, final UUID currentUserId) {
+        List<UUID> newImageIds = Objects.requireNonNullElseGet(newImageIdsParam, List::of);
         boolean hasChanges = false;
         List<CampaignImageEntity> images = campaign.getImages();
         for (CampaignImageEntity image : images) {
