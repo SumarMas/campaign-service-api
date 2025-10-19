@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Service implementation for retrieving campaign information.
+ */
 @Service
 @RequiredArgsConstructor
 public class GetCampaignService implements IGetCampaignService {

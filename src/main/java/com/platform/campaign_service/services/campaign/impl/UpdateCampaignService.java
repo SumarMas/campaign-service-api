@@ -2,7 +2,6 @@ package com.platform.campaign_service.services.campaign.impl;
 
 import com.platform.campaign_service.context.IContextService;
 import com.platform.campaign_service.controllers.manageExceptions.CustomException;
-import com.platform.campaign_service.dtos.campaign.CampaignCreateRequestDto;
 import com.platform.campaign_service.dtos.campaign.CampaignUpdateRequestDto;
 import com.platform.campaign_service.dtos.ngo.NgoDto;
 import com.platform.campaign_service.entities.CampaignCategoryEntity;
@@ -34,7 +33,8 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Implementation of the IUpdateCampaignService interface for updating campaign information.
+ * Implementation of the IUpdateCampaignService interface
+ * for updating campaign information.
  */
 @Service
 @RequiredArgsConstructor
@@ -72,6 +72,7 @@ public class UpdateCampaignService implements IUpdateCampaignService {
      */
     @Override
     @Transactional
+    @SuppressWarnings("unused")
     public void updateCampaign(UUID campaignId, CampaignUpdateRequestDto request) {
         LOG.trace("Updating campaign with ID: {}", campaignId);
         UUID userId = getCurrentUserId();

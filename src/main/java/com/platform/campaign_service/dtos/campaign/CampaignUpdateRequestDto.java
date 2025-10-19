@@ -2,7 +2,6 @@ package com.platform.campaign_service.dtos.campaign;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -16,6 +15,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Data Transfer Object for updating campaign details.
+ */
 @Data
 @Builder
 @NoArgsConstructor
