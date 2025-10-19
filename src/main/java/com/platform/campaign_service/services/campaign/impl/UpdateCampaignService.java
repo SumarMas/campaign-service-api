@@ -160,7 +160,7 @@ public class UpdateCampaignService implements IUpdateCampaignService {
                     campaign.getEndDatetime());
             throw new CustomException("Ended campaigns cannot be updated.", HttpStatus.BAD_REQUEST);
         }
-        if (!Objects.equals(campaign.getCampaignId().toString(), ngo.getId())) {
+        if (!Objects.equals(campaign.getOrganizationId().toString(), ngo.getId())) {
             LOG.warn("The Campaign with ID: {} does not belong to the NGO with ID: {}",
                     campaign.getCampaignId(), ngo.getId());
             throw new CustomException("The campaign does not belong to the NGO.", HttpStatus.UNAUTHORIZED);
