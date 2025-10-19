@@ -1,6 +1,8 @@
 package com.platform.campaign_service.services.category.impl;
 
+import com.platform.campaign_service.dtos.categories.CategoryDto;
 import com.platform.campaign_service.entities.CategoryEntity;
+import com.platform.campaign_service.map.impl.MapperCategory;
 import com.platform.campaign_service.repositories.CategoryRepository;
 import com.platform.campaign_service.services.category.IGetCategoryService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,9 @@ public class GetCategoryService implements IGetCategoryService {
     private static final Logger LOG = LoggerFactory.getLogger(GetCategoryService.class);
     /** Repository for accessing category data. */
     private final CategoryRepository categoryRepository;
+    /** Mapper for converting between CategoryEntity and CategoryDto. */
+    private final MapperCategory mapperCategory;
+
     /**
      * Retrieves all active categories.
      *
@@ -36,5 +41,26 @@ public class GetCategoryService implements IGetCategoryService {
             LOG.error("Error retrieving active categories: {}", ex.getMessage());
         }
         return  categories;
+    }
+
+    /**
+     * Retrieves all active categories as DTOs.
+     *
+     * @return a list of active CategoryDto objects
+     */
+    @Override
+    public List<CategoryDto> getAllCategoriesActiveDto() {
+        List<CategoryDto> categories = new ArrayList<>();
+        try {
+            LOG.trace("In GetCategoryService.getAllCategoriesActiveDto()");
+            categories.addAll(getAllCategoriesActive().stream().map(this::mapToDto).toList());
+        } catch (DataAccessException ex) {
+            LOG.error("Error retrieving active category DTOs: {}", ex.getMessage());
+        }
+        return categories;
+    }
+
+    private CategoryDto mapToDto(CategoryEntity categoryEntity) {
+        return mapperCategory.mapToDto(categoryEntity);
     }
 }
