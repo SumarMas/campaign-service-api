@@ -54,3 +54,7 @@ eureka:
 pool:
   user:
     url: ${USER_SERVICE_URL:http://localhost:9080/users}
+
+scheduler:
+  campaign-auto-close:
+    rate-ms: 30000 # cada 30 segundos
