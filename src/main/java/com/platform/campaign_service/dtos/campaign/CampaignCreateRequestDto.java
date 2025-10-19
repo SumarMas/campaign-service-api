@@ -1,4 +1,4 @@
-package com.platform.campaign_service.dtos;
+package com.platform.campaign_service.dtos.campaign;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Future;

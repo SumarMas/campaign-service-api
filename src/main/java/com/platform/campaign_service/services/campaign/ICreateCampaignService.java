@@ -1,6 +1,6 @@
 package com.platform.campaign_service.services.campaign;
 
-import com.platform.campaign_service.dtos.CampaignCreateRequestDto;
+import com.platform.campaign_service.dtos.campaign.CampaignCreateRequestDto;
 
 /**
  * Service interface for creating campaigns.
