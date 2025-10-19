@@ -25,7 +25,8 @@ public interface IGetCampaignService {
      * @param campaignState   The state of the campaigns to filter by.
      * @param categoryIds     A set of category IDs to filter the campaigns.
      * @param tags            A set of tags to filter the campaigns.
-     * @param organizationId  The ID of the organization to which the campaigns belong.
+     * @param organizationId  The ID of the organization to
+     *                        which the campaigns belong.
      * @return A list of CampaignDto objects that match the provided filters.
      */
     List<CampaignDto> getCapaignsByFilters(CampaignState campaignState, Set<UUID> categoryIds,
