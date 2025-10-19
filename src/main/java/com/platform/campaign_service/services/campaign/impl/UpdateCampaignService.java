@@ -88,7 +88,7 @@ public class UpdateCampaignService implements IUpdateCampaignService {
             campaign.setDescription(request.getDescription());
             hasChanges = true;
         }
-        if (request.getGoalAmount() != null && !request.getGoalAmount().equals(campaign.getGoalAmount())) {
+        if (request.getGoalAmount() != null && request.getGoalAmount().compareTo(campaign.getGoalAmount()) != 0) {
             campaign.setGoalAmount(request.getGoalAmount());
             hasChanges = true;
         }
