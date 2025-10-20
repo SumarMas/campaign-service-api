@@ -44,7 +44,7 @@ public class CommentGetService implements ICommentGetService {
 
     private List<CampaignCommentEntity> getCampaignComments(UUID campaignId) {
         try {
-            return commentRepository.findByCampaignId(campaignId);
+            return commentRepository.findByCampaignIdAndEnabled(campaignId);
         } catch (DataAccessException ex) {
             LOG.error("Error retrieving comments from the database", ex);
             return List.of();

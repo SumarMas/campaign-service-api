@@ -18,7 +18,8 @@ public interface CampaignCommentRepository extends JpaRepository<CampaignComment
      * @param campaignId the unique identifier of the campaign
      * @return a list of CampaignCommentEntity instances related to the campaign
      */
-    @Query("SELECT c FROM CampaignCommentEntity c WHERE c.campaign.campaignId = :campaignId")
-    List<CampaignCommentEntity> findByCampaignId(UUID campaignId);
+    @Query("SELECT c FROM CampaignCommentEntity c WHERE c.campaign.campaignId = :campaignId "
+            + "AND c.enabled = true ORDER BY c.createdDatetime DESC")
+    List<CampaignCommentEntity> findByCampaignIdAndEnabled(UUID campaignId);
 
 }
