@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
-
+/**
+ * Service implementation for creating campaign messages.
+ */
 @Service
 @RequiredArgsConstructor
 public class CreateMessageCampService implements ICreateMessageCampService {

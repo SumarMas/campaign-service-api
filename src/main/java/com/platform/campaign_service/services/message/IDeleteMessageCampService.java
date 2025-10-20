@@ -1,7 +1,9 @@
 package com.platform.campaign_service.services.message;
 
 import java.util.UUID;
-
+/**
+ * Service interface for deleting message campaigns.
+ */
 public interface IDeleteMessageCampService {
     /**
      * Deletes a message campaign by its ID.

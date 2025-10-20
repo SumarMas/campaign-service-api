@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
-
+/**
+ * Controller for managing message campaigns.
+ */
 @RestController
 @RequestMapping("/api/v1/message-campaigns")
 @RequiredArgsConstructor

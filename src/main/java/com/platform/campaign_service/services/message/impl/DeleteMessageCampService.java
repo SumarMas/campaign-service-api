@@ -99,7 +99,7 @@ public class DeleteMessageCampService implements IDeleteMessageCampService {
         } catch (DataAccessException ex) {
             LOG.error("Error deleting message campaign with ID {}: {}",
                     campaignMessageEntity.getCampaignMessageId(), ex.getMessage());
-            throw new CustomException("Error deleting message campaign", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new CustomException("Error deleting message campaign", HttpStatus.INTERNAL_SERVER_ERROR, ex);
         }
     }
 }
