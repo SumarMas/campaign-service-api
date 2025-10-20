@@ -60,7 +60,7 @@ public class CommentAddService implements ICommentAddService {
 
     private CampaignEntity validateCampaignExists(UUID campaignId) {
         // This will throw an exception if the campaign does not exist
-       return getCampaignService.getCampaignEntityById(campaignId);
+        return getCampaignService.getCampaignEntityById(campaignId);
     }
 
     private CampaignCommentEntity buildCommentEntity(CommentCreateDto commentCreateDto, CampaignEntity campaignEntity) {

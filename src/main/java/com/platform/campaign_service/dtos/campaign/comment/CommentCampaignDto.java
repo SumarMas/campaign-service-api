@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class CommentCampaignDto {
-    /** Unique identifier for the comment comment. */
+    /** Unique identifier for the comment. */
     @JsonProperty("comment_id")
     private String commentId;
     /** User identifier of the comment author. */
