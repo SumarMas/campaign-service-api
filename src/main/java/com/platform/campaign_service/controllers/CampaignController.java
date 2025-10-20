@@ -82,4 +82,15 @@ public class CampaignController {
                 campaignService.getCapaignsByFilters(state, categoryIds, tags, organizationId);
         return ResponseEntity.ok(result);
     }
+    /**
+     * Retrieves a campaign by its unique identifier.
+     *
+     * @param campaignId the unique identifier of the campaign
+     * @return a ResponseEntity containing the CampaignDto
+     */
+    @GetMapping("/{campaignId}")
+    public ResponseEntity<CampaignDto> getCampaignById(@PathVariable UUID campaignId) {
+        CampaignDto campaignDto = campaignService.getCampaignById(campaignId);
+        return ResponseEntity.ok(campaignDto);
+    }
 }

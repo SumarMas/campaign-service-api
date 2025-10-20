@@ -84,10 +84,26 @@ public class GetCampaignService implements IGetCampaignService {
                 .toList();
     }
 
+    /**
+     * Retrieves a CampaignDto by its unique identifier.
+     *
+     * @param campaignId The unique identifier of the campaign.
+     * @return The CampaignDto corresponding to the provided ID.
+     */
+    @Override
+    public CampaignDto getCampaignById(UUID campaignId) {
+        CampaignEntity campaignEntity = getCampaignEntityById(campaignId);
+        return mapToDto(campaignEntity);
+    }
+
     private CampaignDto mapToDto(CampaignEntity campaignEntity, Map<String, NgoDto> ngoDtos) {
         CampaignDto campaignDto = mapperCampaign.mapToDto(campaignEntity);
         NgoDto ngoDto = ngoDtos.get(campaignEntity.getOrganizationId().toString());
         campaignDto.setNgo(ngoDto);
         return campaignDto;
+    }
+
+    private CampaignDto mapToDto(CampaignEntity campaignEntity) {
+        return mapperCampaign.mapToDto(campaignEntity);
     }
 }

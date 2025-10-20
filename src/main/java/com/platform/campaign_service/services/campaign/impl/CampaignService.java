@@ -68,4 +68,16 @@ public class CampaignService implements ICampaignService {
         LOG.trace("getCampaignsByFilters");
         return getCampaignService.getCapaignsByFilters(campaignState, categoryIds, tags, organizationId);
     }
+
+    /**
+     * Retrieves a CampaignDto by its unique identifier.
+     *
+     * @param campaignId The unique identifier of the campaign.
+     * @return The CampaignDto corresponding to the provided ID.
+     */
+    @Override
+    public CampaignDto getCampaignById(UUID campaignId) {
+        LOG.trace("getCampaignById");
+        return getCampaignService.getCampaignById(campaignId);
+    }
 }

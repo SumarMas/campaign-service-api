@@ -40,4 +40,11 @@ public interface ICampaignService {
      */
     List<CampaignDto> getCapaignsByFilters(CampaignState campaignState, Set<UUID> categoryIds,
                                            Set<String> tags, UUID organizationId);
+
+    /**
+     * Retrieves a CampaignDto by its unique identifier.
+     * @param campaignId The unique identifier of the campaign.
+     * @return The CampaignDto corresponding to the provided ID.
+     */
+    CampaignDto getCampaignById(UUID campaignId);
 }
