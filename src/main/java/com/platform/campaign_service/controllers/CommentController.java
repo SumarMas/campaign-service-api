@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * REST controller for managing comments related to campaigns.
+ */
 @RestController
 @RequestMapping("/api/v1/comments")
 @RequiredArgsConstructor
@@ -43,7 +46,8 @@ public class CommentController {
     /**
      * Handles requests to add a comment to a specific campaign.
      *
-     * @param campaignId        the ID of the campaign to which the comment is to be added
+     * @param campaignId        the ID of the campaign to which
+     *                          the comment is to be added
      * @param commentCreateDto  the DTO containing the comment details
      * @return a ResponseEntity indicating the result of the operation
      */

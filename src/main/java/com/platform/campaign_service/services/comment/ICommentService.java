@@ -5,7 +5,9 @@ import com.platform.campaign_service.dtos.campaign.comment.CommentCreateDto;
 
 import java.util.List;
 import java.util.UUID;
-
+/**
+ * Service interface for managing comments related to campaigns.
+ */
 public interface ICommentService {
     /**
      * Adds a comment to a campaign.

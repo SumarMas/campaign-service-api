@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 /**
@@ -38,10 +39,11 @@ public class CommentAddService implements ICommentAddService {
      * @param commentCreateDto the DTO containing the comment details
      */
     @Override
+    @Transactional
     public void addComment(UUID campaignId, CommentCreateDto commentCreateDto) {
         LOG.trace("Entering addComment");
         CampaignEntity campaignEntity = validateCampaignExists(campaignId);
-        CampaignCommentEntity commentEntity = buildCommentEntity(campaignId, commentCreateDto, campaignEntity);
+        CampaignCommentEntity commentEntity = buildCommentEntity(commentCreateDto, campaignEntity);
         try {
             commentRepository.save(commentEntity);
         } catch (DataAccessException ex) {
@@ -61,7 +63,7 @@ public class CommentAddService implements ICommentAddService {
        return getCampaignService.getCampaignEntityById(campaignId);
     }
 
-    private CampaignCommentEntity buildCommentEntity(UUID campaignId, CommentCreateDto commentCreateDto, CampaignEntity campaignEntity) {
+    private CampaignCommentEntity buildCommentEntity(CommentCreateDto commentCreateDto, CampaignEntity campaignEntity) {
         UUID userId = getUserId();
         return CampaignCommentEntity.builder()
                 .campaignCommentId(UUID.randomUUID())

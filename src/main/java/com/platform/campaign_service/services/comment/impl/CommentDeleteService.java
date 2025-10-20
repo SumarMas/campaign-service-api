@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -32,6 +33,7 @@ public class CommentDeleteService implements ICommentDeleteService {
      * @param commentId the ID of the comment to be deleted
      */
     @Override
+    @Transactional
     public void deleteComment(UUID commentId) {
         LOG.trace("deleteComment({})", commentId);
         UUID userId = getUserId();
