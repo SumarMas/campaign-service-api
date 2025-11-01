@@ -15,6 +15,11 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     show-sql: true
     defer-datasource-initialization: true
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
 
 server:
   port: 8084
@@ -58,3 +63,8 @@ pool:
 scheduler:
   campaign-auto-close:
     rate-ms: 30000 # cada 30 segundos
+
+queues:
+  donation:
+    exchange: ${EXCHANGE_DONATION_STATUS:donation.status}
+    queue: ${QUEUE_DONATION_STATUS:campaign.donation.status.queue}
