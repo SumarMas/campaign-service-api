@@ -1,6 +1,7 @@
 package com.platform.campaign_service.services.campaign;
 
 import com.platform.campaign_service.dtos.campaign.CampaignUpdateRequestDto;
+import com.platform.campaign_service.dtos.donation.DonationMessageDto;
 
 import java.util.UUID;
 /**
@@ -14,4 +15,11 @@ public interface IUpdateCampaignService {
      * @param request    The DTO containing the updated campaign information.
      */
     void  updateCampaign(UUID campaignId, CampaignUpdateRequestDto request);
+
+    /**
+     * Updates the current amount raised for a specific campaign.
+     *
+     * @param donationMessageDto The DTO containing donation information.
+     */
+    void updateCurrentAmount(DonationMessageDto donationMessageDto);
 }

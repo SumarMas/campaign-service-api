@@ -3,6 +3,7 @@ package com.platform.campaign_service.services.campaign.impl;
 import com.platform.campaign_service.context.IContextService;
 import com.platform.campaign_service.controllers.manageExceptions.CustomException;
 import com.platform.campaign_service.dtos.campaign.CampaignUpdateRequestDto;
+import com.platform.campaign_service.dtos.donation.DonationMessageDto;
 import com.platform.campaign_service.dtos.ngo.NgoDto;
 import com.platform.campaign_service.entities.CampaignCategoryEntity;
 import com.platform.campaign_service.entities.CampaignEntity;
@@ -12,6 +13,7 @@ import com.platform.campaign_service.entities.CategoryEntity;
 import com.platform.campaign_service.entities.embeddable.CampaignCategoryId;
 import com.platform.campaign_service.entities.embeddable.CampaignTagId;
 import com.platform.campaign_service.enums.CampaignState;
+import com.platform.campaign_service.enums.DonationStatus;
 import com.platform.campaign_service.repositories.CampaignRepository;
 import com.platform.campaign_service.services.campaign.IGetCampaignService;
 import com.platform.campaign_service.services.campaign.IUpdateCampaignService;
@@ -110,6 +112,32 @@ public class UpdateCampaignService implements IUpdateCampaignService {
             throw new CustomException("An error occurred while updating Campaign.", HttpStatus.INTERNAL_SERVER_ERROR, ex);
         }
 
+    }
+
+    /**
+     * Updates the current amount raised for a specific campaign.
+     *
+     * @param donationMessageDto The DTO containing donation information.
+     */
+    @Override
+    @Transactional
+    public void updateCurrentAmount(DonationMessageDto donationMessageDto) {
+        // Find the campaign by ID
+        CampaignEntity campaign = getCampaignEntity(donationMessageDto.getCampaignId());
+        // Update the current amount depending on change of donation status
+        BigDecimal amountChange = donationMessageDto.getAmount();
+        DonationStatus previousStatus = donationMessageDto.getPreviousDonationStatus();
+        DonationStatus newStatus = donationMessageDto.getDonationStatus();
+        if ((previousStatus.equals(DonationStatus.CREATED) || previousStatus.equals(DonationStatus.CANCELLED))
+                && newStatus.equals(DonationStatus.CONFIRMED)) {
+            campaign.setCurrentAmount(campaign.getCurrentAmount().add(amountChange));
+        } else if (previousStatus.equals(DonationStatus.CONFIRMED)
+                && (newStatus.equals(DonationStatus.CANCELLED))) {
+            campaign.setCurrentAmount(campaign.getCurrentAmount().subtract(amountChange));
+        } else {
+            LOG.info("No change in current amount for Campaign ID: {}. Previous Status: {}, New Status: {}",
+                    campaign.getCampaignId(), previousStatus, newStatus);
+        }
     }
 
     private NgoDto getNgoUserContext() {
