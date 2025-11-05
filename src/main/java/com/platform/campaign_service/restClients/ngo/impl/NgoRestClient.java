@@ -7,13 +7,19 @@ import com.platform.campaign_service.dtos.common.ErrorApi;
 import com.platform.campaign_service.dtos.ngo.NgoDto;
 import com.platform.campaign_service.restClients.ngo.INgoRestClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.UUID;
 
 /**
  * REST client implementation for interacting with the NGO service.
@@ -82,6 +88,34 @@ public class NgoRestClient implements INgoRestClient {
             LOGGER.error("Error in getAllNgosApproved NgoRestClient: {}", ex.getMessage());
             handleError(ex);
             return null; // This line will never be reached because handleError always throws an exception
+        }
+    }
+
+    /**
+     * Retrieves the details of a specific NGO by its ID.
+     *
+     * @param ngoId the unique identifier of the NGO
+     * @return a ResponseEntity containing the NgoDto representing the NGO details
+     */
+    @Override
+    public ResponseEntity<NgoDto> getNgoById(UUID ngoId) {
+        String getUrl = baseUrl + "/api/v1/ngos/{ngoId}";
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<NgoDto> requestEntity = new HttpEntity<>(null, headers);
+            LOGGER.trace("Sending GET request to URL: {}", getUrl);
+            return restTemplate.exchange(
+                    getUrl,
+                    HttpMethod.GET,
+                    requestEntity,
+                    NgoDto.class,
+                    ngoId
+            );
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            LOGGER.error("HTTP error during get data ngo: {}", ex.getMessage());
+            handleError(ex);
+            return null;
         }
     }
 
