@@ -42,7 +42,7 @@ public class DonationConsumer {
                 channel.basicAck(deliveryTag, false);
             } catch (CustomException ex) {
                 log.error("Custom exception processing donation message: {}", ex.getMessage());
-                channel.basicNack(deliveryTag, false, false);
+                channel.basicNack(deliveryTag, false, true);
             } catch (Exception ex) {
                 log.error("Unexpected error processing donation message: {}", ex.getMessage());
                 channel.basicNack(deliveryTag, false, true);

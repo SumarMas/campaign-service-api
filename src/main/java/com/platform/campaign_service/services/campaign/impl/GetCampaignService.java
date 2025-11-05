@@ -93,7 +93,10 @@ public class GetCampaignService implements IGetCampaignService {
     @Override
     public CampaignDto getCampaignById(UUID campaignId) {
         CampaignEntity campaignEntity = getCampaignEntityById(campaignId);
-        return mapToDto(campaignEntity);
+        CampaignDto campaignDto = mapToDto(campaignEntity);
+        NgoDto ngoDto = getNgoService.getNgoById(campaignEntity.getOrganizationId());
+        campaignDto.setNgo(ngoDto);
+        return campaignDto;
     }
 
     private CampaignDto mapToDto(CampaignEntity campaignEntity, Map<String, NgoDto> ngoDtos) {

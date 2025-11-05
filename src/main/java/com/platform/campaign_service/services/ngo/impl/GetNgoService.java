@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -40,6 +41,23 @@ public class GetNgoService implements IGetNgoService {
             throw new CustomException("Error retrieve NGO info", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return  ngoDto;
+    }
+
+    /**
+     * Retrieves the details of a specific NGO by its ID.
+     *
+     * @param ngoId the unique identifier of the NGO
+     * @return the NgoDto representing the NGO details
+     */
+    @Override
+    public NgoDto getNgoById(UUID ngoId) {
+        LOG.trace("getNgoById({})", ngoId);
+        NgoDto ngoDto = ngoRestClient.getNgoById(ngoId).getBody();
+        if (ngoDto == null) {
+            LOG.error("NgoDto is null for ngoId: {}", ngoId);
+            throw new CustomException("Error retrieve NGO info", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return   ngoDto;
     }
 
     /**
