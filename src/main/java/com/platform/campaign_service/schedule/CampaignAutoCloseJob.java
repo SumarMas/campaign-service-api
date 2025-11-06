@@ -1,14 +1,20 @@
 package com.platform.campaign_service.schedule;
 
+import com.platform.campaign_service.dtos.campaign.CampaignClosedEventDto;
+import com.platform.campaign_service.entities.CampaignEntity;
+import com.platform.campaign_service.enums.CampaignState;
+import com.platform.campaign_service.messaging.producer.CampaignCloseProducer;
+import com.platform.campaign_service.repositories.CampaignRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.EntityManager;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Scheduled job to automatically close
@@ -16,13 +22,12 @@ import jakarta.persistence.EntityManager;
  */
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CampaignAutoCloseJob {
-    /** Logger instance for logging purposes. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(CampaignAutoCloseJob.class);
-    /** EntityManager for interacting with the persistence context. */
-    private final EntityManager entityManager;
-
-
+    /** Repository for accessing campaign data. */
+    private final CampaignRepository campaignRepository;
+    /** Producer for publishing campaign close events. */
+    private final CampaignCloseProducer campaignCloseProducer;
     /**
      * Closes campaigns that have reached their end date or met their goal.
      * Runs every 10 seconds.
@@ -30,25 +35,34 @@ public class CampaignAutoCloseJob {
     @Transactional
     @Scheduled(fixedRateString =  "${scheduler.campaign-auto-close.rate-ms}") // every 10 seconds
     public void closeFinishedCampaigns() {
-        LOGGER.debug("Start to close finished campaigns");
-        String sql = """
-            UPDATE campaigns
-            SET state = 'CLOSED',
-                last_updated_datetime = CURRENT_TIMESTAMP
-            WHERE enabled = TRUE
-              AND state = 'ACTIVE'
-              AND (end_datetime <= CURRENT_TIMESTAMP OR current_amount >= goal_amount)
-            """;
-        try {
-            int updatedCount = entityManager.createNativeQuery(sql).executeUpdate();
-            if (updatedCount > 0) {
-                LOGGER.info("Closed {} finished campaigns", updatedCount);
-            } else {
-                LOGGER.debug("No campaigns to close at this time");
-            }
-        }  catch (DataAccessException e) {
-            LOGGER.error("Database access error: {}", e.getMessage(), e);
+        LocalDateTime now = LocalDateTime.now();
+        List<CampaignEntity> campaignsToClose =
+                campaignRepository.findCampaignsToClose(CampaignState.ACTIVE, now);
+        if (campaignsToClose.isEmpty()) {
+            log.info("No campaigns to close at {}", now);
+            return;
         }
-        LOGGER.debug("End to close finished campaigns");
+        for (CampaignEntity campaign : campaignsToClose) {
+            try {
+                String reason = campaign.getCurrentAmount().compareTo(campaign.getGoalAmount()) >= 0
+                        ? "goal_reached" : "end_date_reached";
+
+                campaign.setState(CampaignState.CLOSED);
+                campaign.setLastUpdatedDatetime(now);
+                campaignRepository.save(campaign);
+
+                campaignCloseProducer.publishCampaignCloseEvent(new CampaignClosedEventDto(
+                        campaign.getCampaignId(),
+                        campaign.getOrganizationId(),
+                        campaign.getTitle(),
+                        reason
+                ));
+
+                log.info("Closed campaign {} ({})", campaign.getTitle(), reason);
+
+            } catch (Exception ex) {
+                log.error("Error closing campaign {}: {}", campaign.getCampaignId(), ex.getMessage(), ex);
+            }
+        }
     }
 }
