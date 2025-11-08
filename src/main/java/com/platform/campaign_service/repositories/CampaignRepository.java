@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 /**
  * Repository interface for managing CampaignEntity instances.
@@ -28,4 +29,18 @@ public interface CampaignRepository extends JpaRepository<CampaignEntity, UUID> 
           AND (c.endDatetime <= :now OR c.currentAmount >= c.goalAmount)
         """)
     List<CampaignEntity> findCampaignsToClose(CampaignState state, LocalDateTime now);
+
+    /** Finds all campaigns associated with the given NGO IDs.
+     *
+     * @param ngosIds a set of NGO IDs to filter campaigns
+     * @return a list of campaigns associated with the specified NGO IDs
+     */
+    List<CampaignEntity> findAllByOrganizationIdIn(Set<UUID> ngosIds);
+
+    /** Finds all campaigns with the specified campaign IDs.
+     *
+     * @param campaignIds a set of campaign IDs to filter campaigns
+     * @return a list of campaigns matching the specified campaign IDs
+     */
+    List<CampaignEntity> findAllByCampaignIdIn(Set<UUID> campaignIds);
 }

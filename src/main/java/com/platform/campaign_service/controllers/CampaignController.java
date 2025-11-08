@@ -6,6 +6,7 @@ import com.platform.campaign_service.dtos.campaign.CampaignUpdateRequestDto;
 import com.platform.campaign_service.enums.CampaignState;
 import com.platform.campaign_service.services.campaign.ICampaignService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,5 +93,33 @@ public class CampaignController {
     public ResponseEntity<CampaignDto> getCampaignById(@PathVariable UUID campaignId) {
         CampaignDto campaignDto = campaignService.getCampaignById(campaignId);
         return ResponseEntity.ok(campaignDto);
+    }
+
+    /**
+     * Retrieves campaigns by a set of NGO IDs.
+     *
+     * @param ngosIds the set of NGO IDs
+     * @return a ResponseEntity containing a list of CampaignDto objects
+     */
+    @PostMapping("/get-by-ngos-ids")
+    public ResponseEntity<List<CampaignDto>> getCampaignsByNgosIds(
+            @RequestBody @Valid @NotEmpty Set<UUID> ngosIds) {
+        LOG.info("Getting campaigns by NGOs IDs");
+        List<CampaignDto> result = campaignService.getCampaignsByNgosIds(ngosIds);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * Retrieves campaigns by a set of campaign IDs.
+     *
+     * @param campaignIds the set of campaign IDs
+     * @return a ResponseEntity containing a list of CampaignDto objects
+     */
+    @PostMapping("/get-by-ids")
+    public ResponseEntity<List<CampaignDto>> getCampaignsByIds(
+            @RequestBody @Valid @NotEmpty Set<UUID> campaignIds) {
+        LOG.info("Getting campaigns by IDs");
+        List<CampaignDto> result = campaignService.getCampaignsByIds(campaignIds);
+        return ResponseEntity.ok(result);
     }
 }

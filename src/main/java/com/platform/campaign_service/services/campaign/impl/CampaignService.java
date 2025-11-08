@@ -80,4 +80,28 @@ public class CampaignService implements ICampaignService {
         LOG.trace("getCampaignById");
         return getCampaignService.getCampaignById(campaignId);
     }
+
+    /**
+     * Retrieves a list of CampaignDto objects based on provided NGO IDs.
+     *
+     * @param ngosIds A set of NGO IDs to filter the campaigns.
+     * @return A list of CampaignDto objects that match the provided NGO IDs.
+     */
+    @Override
+    public List<CampaignDto> getCampaignsByNgosIds(Set<UUID> ngosIds) {
+        LOG.trace("getCampaignsByNgosIds");
+        return getCampaignService.getCampaignsByNgosIds(ngosIds);
+    }
+
+    /**
+     * Retrieves a list of CampaignDto objects based on provided campaign IDs.
+     *
+     * @param campaignIds A set of campaign IDs to filter the campaigns.
+     * @return A list of CampaignDto objects that match the provided campaign IDs.
+     */
+    @Override
+    public List<CampaignDto> getCampaignsByIds(Set<UUID> campaignIds) {
+        LOG.trace("getCampaignsByIds");
+        return getCampaignService.getCampaignsByIds(campaignIds);
+    }
 }
