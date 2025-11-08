@@ -99,6 +99,38 @@ public class GetCampaignService implements IGetCampaignService {
         return campaignDto;
     }
 
+    /**
+     * Retrieves a list of CampaignDto objects based on provided NGO IDs.
+     *
+     * @param ngosIds A set of NGO IDs to filter the campaigns.
+     * @return A list of CampaignDto objects that match the provided NGO IDs.
+     */
+    @Override
+    public List<CampaignDto> getCampaignsByNgosIds(Set<UUID> ngosIds) {
+        LOG.trace("Getting campaigns by NGO IDs: {}", ngosIds);
+        List<CampaignEntity> campaignEntities = campaignRepository.findAllByOrganizationIdIn(ngosIds);
+        Map<String, NgoDto> ngoDtos = getNgoService.getAllNgos();
+        return campaignEntities.stream()
+                .map(campaignEntity -> mapToDto(campaignEntity, ngoDtos))
+                .toList();
+    }
+
+    /**
+     * Retrieves a list of CampaignDto objects based on provided campaign IDs.
+     *
+     * @param campaignIds A set of campaign IDs to filter the campaigns.
+     * @return A list of CampaignDto objects that match the provided campaign IDs.
+     */
+    @Override
+    public List<CampaignDto> getCampaignsByIds(Set<UUID> campaignIds) {
+        LOG.trace("Getting campaigns by IDs: {}", campaignIds);
+        List<CampaignEntity> campaignEntities = campaignRepository.findAllByCampaignIdIn(campaignIds);
+        Map<String, NgoDto> ngoDtos = getNgoService.getAllNgos();
+        return campaignEntities.stream()
+                .map(campaignEntity -> mapToDto(campaignEntity, ngoDtos))
+                .toList();
+    }
+
     private CampaignDto mapToDto(CampaignEntity campaignEntity, Map<String, NgoDto> ngoDtos) {
         CampaignDto campaignDto = mapperCampaign.mapToDto(campaignEntity);
         NgoDto ngoDto = ngoDtos.get(campaignEntity.getOrganizationId().toString());

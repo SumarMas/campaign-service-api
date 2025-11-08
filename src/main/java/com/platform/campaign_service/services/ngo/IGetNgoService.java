@@ -29,4 +29,10 @@ public interface IGetNgoService {
      * @return a map of NGO identifiers to their corresponding NgoDto.
      */
     Map<String, NgoDto> getAllNgosApproved();
+    /**
+     * Retrieves all NGOs.
+     *
+     * @return a map of NGO identifiers to their corresponding NgoDto.
+     */
+    Map<String, NgoDto> getAllNgos();
 }

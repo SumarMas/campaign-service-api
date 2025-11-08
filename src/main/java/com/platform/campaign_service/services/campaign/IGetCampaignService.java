@@ -38,4 +38,20 @@ public interface IGetCampaignService {
      * @return The CampaignDto corresponding to the provided ID.
      */
     CampaignDto getCampaignById(UUID campaignId);
+
+    /**
+     * Retrieves a list of CampaignDto objects based on provided NGO IDs.
+     *
+     * @param ngosIds A set of NGO IDs to filter the campaigns.
+     * @return A list of CampaignDto objects that match the provided NGO IDs.
+     */
+    List<CampaignDto> getCampaignsByNgosIds(Set<UUID> ngosIds);
+
+    /**
+     * Retrieves a list of CampaignDto objects based on provided campaign IDs.
+     *
+     * @param campaignIds A set of campaign IDs to filter the campaigns.
+     * @return A list of CampaignDto objects that match the provided campaign IDs.
+     */
+    List<CampaignDto> getCampaignsByIds(Set<UUID> campaignIds);
 }

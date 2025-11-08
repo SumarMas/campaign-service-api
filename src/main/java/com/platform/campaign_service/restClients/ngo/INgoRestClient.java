@@ -25,6 +25,13 @@ public interface INgoRestClient {
      */
     ResponseEntity<NgoDto[]> getAllNgosApproved();
     /**
+     * Retrieves all NGOs.
+     *
+     * @return a ResponseEntity containing an array of
+     * NgoDto representing all NGOs
+     */
+    ResponseEntity<NgoDto[]> getAllNgos();
+    /**
      * Retrieves the details of a specific NGO by its ID.
      *
      * @param ngoId the unique identifier of the NGO

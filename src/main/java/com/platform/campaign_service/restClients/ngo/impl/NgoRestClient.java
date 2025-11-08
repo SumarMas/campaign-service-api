@@ -92,6 +92,27 @@ public class NgoRestClient implements INgoRestClient {
     }
 
     /**
+     * Retrieves all NGOs.
+     *
+     * @return a ResponseEntity containing an array of
+     * NgoDto representing all NGOs
+     */
+    @Override
+    public ResponseEntity<NgoDto[]> getAllNgos() {
+        LOGGER.trace("getAllNgos RestClient - start");
+        String url = baseUrl + "/api/v1/ngos/all";
+        try {
+            ResponseEntity<NgoDto[]> response = restTemplate.getForEntity(url, NgoDto[].class);
+            LOGGER.trace("getAllNgos RestClient - end");
+            return response;
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            LOGGER.error("Error in getAllNgos NgoRestClient: {}", ex.getMessage());
+            handleError(ex);
+            return null; // This line will never be reached because handleError always throws an exception
+        }
+    }
+
+    /**
      * Retrieves the details of a specific NGO by its ID.
      *
      * @param ngoId the unique identifier of the NGO

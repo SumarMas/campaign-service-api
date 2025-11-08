@@ -81,5 +81,27 @@ public class GetNgoService implements IGetNgoService {
         }
         return Arrays.stream(ngosDto).collect(Collectors.toMap(NgoDto::getId, ngoDto -> ngoDto, (a, b) -> a));
     }
+
+    /**
+     * Retrieves all NGOs.
+     *
+     * @return a map of NGO identifiers to their corresponding NgoDto.
+     */
+    @Override
+    public Map<String, NgoDto> getAllNgos() {
+        LOG.trace("getAllNgos()");
+        NgoDto[] ngosDto;
+        try {
+            ngosDto = ngoRestClient.getAllNgos().getBody();
+            if (ngosDto == null) {
+                LOG.error("NgosDto is null");
+                ngosDto = new NgoDto[0];
+            }
+        } catch (CustomException e) {
+            LOG.error("Error retrieving NGOs: {}", e.getMessage());
+            ngosDto = new NgoDto[0];
+        }
+        return Arrays.stream(ngosDto).collect(Collectors.toMap(NgoDto::getId, ngoDto -> ngoDto, (a, b) -> a));
+    }
 }
 
