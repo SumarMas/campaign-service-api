@@ -20,6 +20,9 @@ spring:
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USER:guest}
     password: ${RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        auto-startup: false
 
 server:
   port: 8084
@@ -70,4 +73,3 @@ queues:
     queue: ${QUEUE_DONATION_STATUS:campaign.donation.status.queue}
   campaign-close:
     exchange: ${EXCHANGE_CAMPAIGN_CLOSE:campaign.close}
-    queue: ${QUEUE_CAMPAIGN_CLOSE:campaign.close.queue}
