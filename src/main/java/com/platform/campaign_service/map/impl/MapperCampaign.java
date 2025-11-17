@@ -46,7 +46,7 @@ public class MapperCampaign implements IMapper<CampaignDto, CampaignEntity> {
 
     private List<String> mapTags(List<CampaignTagEntity> tagsEntities) {
         List<String> tags = new ArrayList<>();
-        for (CampaignTagEntity tagEntity : tagsEntities) {
+        for (CampaignTagEntity tagEntity : tagsEntities.stream().filter(CampaignTagEntity::getEnabled).toList()) {
             tags.add(tagEntity.getTag());
         }
         return tags;
@@ -54,7 +54,7 @@ public class MapperCampaign implements IMapper<CampaignDto, CampaignEntity> {
 
     private List<String> mapImages(List<CampaignImageEntity> imageEntities) {
         List<String> images = new ArrayList<>();
-        for (CampaignImageEntity imageEntity : imageEntities) {
+        for (CampaignImageEntity imageEntity : imageEntities.stream().filter(CampaignImageEntity::getEnabled).toList()) {
             images.add(imageEntity.getFileId().toString());
         }
         return images;
@@ -62,7 +62,8 @@ public class MapperCampaign implements IMapper<CampaignDto, CampaignEntity> {
 
     private List<CategoryDto> mapCategories(List<CampaignCategoryEntity> campaignCategoryEntities) {
         List<CategoryDto> categories = new ArrayList<>();
-        for (CampaignCategoryEntity campaignCategoryEntity : campaignCategoryEntities) {
+        for (CampaignCategoryEntity campaignCategoryEntity : campaignCategoryEntities
+                .stream().filter(CampaignCategoryEntity::getEnabled).toList()) {
             categories.add(mapperCategory.mapToDto(campaignCategoryEntity.getCategory()));
         }
         return categories;
