@@ -6,6 +6,7 @@ import com.platform.campaign_service.dtos.campaign.CampaignCreateRequestDto;
 import com.platform.campaign_service.dtos.ngo.NgoDto;
 import com.platform.campaign_service.entities.CampaignCategoryEntity;
 import com.platform.campaign_service.entities.CampaignEntity;
+import com.platform.campaign_service.entities.CampaignImageEntity;
 import com.platform.campaign_service.entities.CampaignTagEntity;
 import com.platform.campaign_service.entities.CategoryEntity;
 import com.platform.campaign_service.entities.embeddable.CampaignCategoryId;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -34,15 +36,25 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CreateCampaignService implements ICreateCampaignService {
-    /** Logger instance for logging information and errors. */
+    /**
+     * Logger instance for logging information and errors.
+     */
     private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(CreateCampaignService.class);
-    /** Service for retrieving NGO information. */
+    /**
+     * Service for retrieving NGO information.
+     */
     private final IGetNgoService getNgoService;
-    /** Repository for accessing campaign data. */
+    /**
+     * Repository for accessing campaign data.
+     */
     private final CampaignRepository campaignRepository;
-    /** Service for managing context-related operations. */
+    /**
+     * Service for managing context-related operations.
+     */
     private final IContextService contextService;
-    /** Service for handling category-related operations. */
+    /**
+     * Service for handling category-related operations.
+     */
     private final ICategoryService categoryService;
 
     /**
@@ -61,6 +73,7 @@ public class CreateCampaignService implements ICreateCampaignService {
         List<CategoryEntity> allCategories = getAllCategoriesActive();
         campaignEntity.setCategories(buildCampaignCategoryEntities(campaignEntity, allCategories, requestDto));
         campaignEntity.setTags(buildCampaignTagEntities(campaignEntity, requestDto));
+        campaignEntity.setImages(buildCampaignImageEntities(campaignEntity, requestDto));
         saveCampaign(campaignEntity);
         LOG.info("Campaign created successfully with ID: {}", campaignEntity.getCampaignId());
     }
@@ -110,6 +123,22 @@ public class CreateCampaignService implements ICreateCampaignService {
                         .createdUser(campaignEntity.getCreatedUser())
                         .build())
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    private List<CampaignImageEntity> buildCampaignImageEntities(CampaignEntity campaignEntity, CampaignCreateRequestDto requestDto) {
+        List<CampaignImageEntity> result = new ArrayList<>();
+        int orderIndex = 0;
+        for (UUID id : requestDto.getImageIds()) {
+            result.add(CampaignImageEntity.builder()
+                    .campaign(campaignEntity)
+                    .fileId(id)
+                    .createdUser(campaignEntity.getCreatedUser())
+                    .campaignImageId(UUID.randomUUID())
+                    .orderIndex(orderIndex)
+                    .build());
+            orderIndex++;
+        }
+        return  result;
     }
 
     private UUID getCurrentUserId() {
