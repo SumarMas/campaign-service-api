@@ -63,7 +63,7 @@ public class MessageCampaignController {
      * @param messageCampaignId The ID of the message campaign to be deleted.
      * @return A ResponseEntity indicating the result of the deletion operation.
      */
-    @DeleteMapping("/{messageCampaignId}")
+    @DeleteMapping("/{messageCampaignId}/delete")
     public ResponseEntity<Void> deleteMessageCampaign(@PathVariable("messageCampaignId") UUID messageCampaignId) {
         LOG.info("Received request to delete message campaign with ID: {}", messageCampaignId);
         messageCampaignService.deleteCampaignMessage(messageCampaignId);
